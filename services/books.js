@@ -30,7 +30,7 @@ const updateBookById = async (bookId, data) => {
 	const index = books.findIndex((item) => item.id === bookId);
 	if (index === -1) return null;
 
-	books[index] = { id: bookId, ...data };
+	books[index] = { ...books[index], ...data };
 
 	await fs.writeFile(booksPath, JSON.stringify(books, null, 2));
 
@@ -40,7 +40,7 @@ const updateBookById = async (bookId, data) => {
 const removeBook = async (bookId) => {
 	const books = await listBooks();
 	const index = books.findIndex((item) => item.id === bookId);
-	if (!index === -1) return null;
+	if (index === -1) return null;
 
 	const [book] = books.splice(index, 1);
 

@@ -1,4 +1,5 @@
 const { booksServices } = require('../services');
+const { HttpError } = require('../helpers');
 
 const getAllBooks = async (_, res) => {
 	const books = await booksServices.listBooks();
@@ -9,7 +10,9 @@ const getBook = async (req, res) => {
 	const { id } = req.params;
 
 	const book = await booksServices.getBookById(id);
-	if (!book) res.status(404).json({ message: 'Not found' });
+	if (!book) {
+		throw HttpError(404, 'Not found');
+	}
 
 	res.json(book);
 };
@@ -24,6 +27,8 @@ const addBook = async (req, res) => {
 const updateBook = async (req, res) => {
 	const { id } = req.params;
 	const data = req.body;
+	if (Object.keys(data).length === 0)
+		res.status(400).json({ message: 'Request body must have at least one field' });
 
 	const updatedBook = await booksServices.updateBookById(id, data);
 	if (!updatedBook) res.status(404).json({ message: 'Not found' });
@@ -35,7 +40,9 @@ const removeBook = async (req, res) => {
 	const { id } = req.params;
 
 	const book = await booksServices.removeBook(id);
-	if (!book) res.status(404).json({ message: 'Not found' });
+	if (!book) {
+		throw HttpError(404, 'Not found');
+	}
 
 	res.json(book);
 };
