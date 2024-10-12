@@ -1,3 +1,4 @@
 const booksControllers = require('./books');
+const contactsControllers = require('./contacts');
 
-module.exports = { booksControllers };
+module.exports = { booksControllers, contactsControllers };

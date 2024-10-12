@@ -5,6 +5,7 @@ const morgan = require('morgan');
 const fs = require('fs/promises');
 
 const booksRouter = require('./routes/api/books');
+const contactsRouter = require('./routes/api/contacts');
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.use(async (req, _, next) => {
 });
 
 app.use('/api/books', booksRouter);
+app.use('/api/contacts', contactsRouter);
 
 app.use((_, res) => {
 	res.status(404).json({

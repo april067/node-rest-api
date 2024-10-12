@@ -31,7 +31,9 @@ const updateBook = async (req, res) => {
 		res.status(400).json({ message: 'Request body must have at least one field' });
 
 	const updatedBook = await booksServices.updateBookById(id, data);
-	if (!updatedBook) res.status(404).json({ message: 'Not found' });
+	if (!updatedBook) {
+		throw HttpError(404, 'Not found');
+	}
 
 	res.json(updatedBook);
 };
